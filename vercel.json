@@ -6,7 +6,10 @@
     }
   },
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/index.js?route=/$path*" },
+    { "source": "/api/states", "destination": "/api/index.js?route=/states" },
+    { "source": "/api/constituencies", "destination": "/api/index.js?route=/constituencies" },
+    { "source": "/api/representatives", "destination": "/api/index.js?route=/representatives" },
+    { "source": "/api/representatives/:id", "destination": "/api/index.js?route=/representatives/:id" },
     { "source": "/api-docs", "destination": "/api/index.js?route=/api-docs" },
     { "source": "/openapi.json", "destination": "/api/index.js?route=/openapi.json" }
   ]
