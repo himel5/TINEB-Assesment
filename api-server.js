@@ -110,6 +110,23 @@ const openApi = {
 
 function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
+  const staticFiles = {
+    '/': ['index.html', 'text/html; charset=utf-8'],
+    '/index.html': ['index.html', 'text/html; charset=utf-8'],
+    '/css/style.css': ['css/style.css', 'text/css; charset=utf-8'],
+    '/js/app.js': ['js/app.js', 'text/javascript; charset=utf-8'],
+    '/data/representatives.csv': ['data/representatives.csv', 'text/csv; charset=utf-8'],
+  };
+  if (staticFiles[url.pathname]) {
+    const [file, contentType] = staticFiles[url.pathname];
+    try {
+      const content = fs.readFileSync(path.join(__dirname, file));
+      response.writeHead(200, { 'Content-Type': contentType });
+      return response.end(content);
+    } catch (error) {
+      return json(response, 500, { error: 'A frontend asset could not be loaded.' });
+    }
+  }
   if (url.pathname.startsWith('/api/')) url.pathname = url.pathname.slice(4) || '/';
   if (url.pathname === '/openapi.json') return json(response, 200, openApi);
   if (url.pathname === '/api-docs') { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); return response.end('<!doctype html><title>API documentation</title><h1>Representative Directory API</h1><p>OpenAPI JSON: <a href="/openapi.json">/openapi.json</a></p><pre>GET /states\nGET /constituencies?state=Tamil%20Nadu\nGET /representatives?state=Tamil%20Nadu\nGET /representatives/:id</pre>'); }
