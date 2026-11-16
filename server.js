@@ -108,8 +108,9 @@ const openApi = {
   },
 };
 
-const server = http.createServer((request, response) => {
+function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
+  if (url.pathname.startsWith('/api/')) url.pathname = url.pathname.slice(4) || '/';
   if (url.pathname === '/openapi.json') return json(response, 200, openApi);
   if (url.pathname === '/api-docs') { response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }); return response.end('<!doctype html><title>API documentation</title><h1>Representative Directory API</h1><p>OpenAPI JSON: <a href="/openapi.json">/openapi.json</a></p><pre>GET /states\nGET /constituencies?state=Tamil%20Nadu\nGET /representatives?state=Tamil%20Nadu\nGET /representatives/:id</pre>'); }
   if (request.method !== 'GET') return json(response, 405, { error: 'Method not allowed.' });
@@ -119,5 +120,10 @@ const server = http.createServer((request, response) => {
   const representativeMatch = url.pathname.match(/^\/representatives\/([^/]+)$/);
   if (representativeMatch) return representativeRoute(response, decodeURIComponent(representativeMatch[1]));
   json(response, 404, { error: 'Route not found.' });
-});
-server.listen(PORT, () => console.log(`Representative API listening on http://localhost:${PORT}`));
+}
+
+if (require.main === module) {
+  http.createServer(handleRequest).listen(PORT, () => console.log(`Representative API listening on http://localhost:${PORT}`));
+}
+
+module.exports = handleRequest;

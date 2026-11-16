@@ -17,6 +17,8 @@ npm run api
 
 The API listens on `http://localhost:3000`; documentation is at `/api-docs` and machine-readable OpenAPI is at `/openapi.json`.
 
+For a Vercel deployment, the static frontend is served from the webpack `dist` output and the API is available under `/api` (for example, `/api/states`).
+
 ## Example requests
 
 `GET /states` returns `[{"state":"Tamil Nadu"}]` (along with the other states).
