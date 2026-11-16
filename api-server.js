@@ -120,7 +120,15 @@ function handleRequest(request, response) {
   if (staticFiles[url.pathname]) {
     const [file, contentType] = staticFiles[url.pathname];
     try {
-      const content = fs.readFileSync(path.join(__dirname, file));
+      const candidates = [
+        path.join(__dirname, 'public', file),
+        path.join(__dirname, file),
+        path.join(process.cwd(), 'public', file),
+        path.join(process.cwd(), file),
+      ];
+      const assetPath = candidates.find((candidate) => fs.existsSync(candidate));
+      if (!assetPath) throw new Error(`Missing frontend asset: ${file}`);
+      const content = fs.readFileSync(assetPath);
       response.writeHead(200, { 'Content-Type': contentType });
       return response.end(content);
     } catch (error) {
