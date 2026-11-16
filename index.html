@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find your representative</title>
+  <meta name="description" content="Browse Lok Sabha representatives by state and constituency.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell">
+      <p class="eyebrow">Lok Sabha directory</p>
+      <h1>Find your representative</h1>
+      <p class="intro">Choose a state and constituency to view the representative and their public contact details.</p>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="search-panel" aria-labelledby="search-title">
+      <div>
+        <p class="eyebrow">Start here</p>
+        <h2 id="search-title">Search the directory</h2>
+      </div>
+      <form id="search-form">
+        <div class="field">
+          <label for="state">State or union territory</label>
+          <select id="state" name="state">
+            <option value="">Select a state</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="constituency">Constituency</label>
+          <select id="constituency" name="constituency" disabled>
+            <option value="">Select a state first</option>
+          </select>
+        </div>
+        <button class="button" type="submit">Search</button>
+        <button class="button button-secondary" id="clear-button" type="button">Clear</button>
+      </form>
+      <div class="name-search">
+        <label for="name-search">Or search by representative name or constituency</label>
+        <input id="name-search" type="search" placeholder="e.g. Mani or Dharmapuri" autocomplete="off">
+      </div>
+      <p id="status-message" class="status-message" role="status"></p>
+    </section>
+
+    <section id="results" aria-live="polite">
+      <div class="empty-state" id="empty-state">
+        <span class="empty-icon" aria-hidden="true">⌕</span>
+        <h2>Select a location to begin</h2>
+        <p>Representative details will appear here after you search.</p>
+      </div>
+      <div id="result-list" class="result-list" hidden></div>
+    </section>
+  </main>
+  <footer class="shell footer"><a href="/api-docs" target="_blank" rel="noreferrer">API documentation</a></footer>
+  <script src="js/app.js"></script>
+</body>
+</html>
