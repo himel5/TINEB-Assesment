@@ -1,6 +1,7 @@
 {
   "name": "representative-directory",
   "version": "0.0.1",
+  "main": "api-server.js",
   "description": "",
   "private": true,
   "keywords": [
