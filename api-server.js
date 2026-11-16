@@ -110,6 +110,11 @@ const openApi = {
 
 function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
+  const rewrittenRoute = url.searchParams.get('route');
+  if (rewrittenRoute) {
+    url.pathname = rewrittenRoute.startsWith('/') ? rewrittenRoute : `/${rewrittenRoute}`;
+    url.searchParams.delete('route');
+  }
   const staticFiles = {
     '/': ['index.html', 'text/html; charset=utf-8'],
     '/index.html': ['index.html', 'text/html; charset=utf-8'],
