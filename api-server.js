@@ -112,7 +112,8 @@ function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
   const rewrittenRoute = url.searchParams.get('route');
   if (rewrittenRoute) {
-    url.pathname = rewrittenRoute.startsWith('/') ? rewrittenRoute : `/${rewrittenRoute}`;
+    const normalizedRoute = rewrittenRoute.replace(/^\/+/, '');
+    url.pathname = `/${normalizedRoute}`;
     url.searchParams.delete('route');
   }
   const staticFiles = {
