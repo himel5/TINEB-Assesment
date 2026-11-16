@@ -4,12 +4,7 @@
   "outputDirectory": "dist",
   "functions": {
     "api/index.js": {
-      "includeFiles": [
-        "index.html",
-        "css/style.css",
-        "js/app.js",
-        "data/representatives.csv"
-      ]
+      "includeFiles": "**/*"
     }
   },
   "rewrites": [
